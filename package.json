@@ -1,0 +1,22 @@
+{
+  "name": "madlibs-rest",
+  "version": "1.0.0",
+  "description": "a restful service for the madlib-ui",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.0",
+    "jasmine-core": "^3.3.0",
+    "karma": "^3.1.4",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-cli": "^2.0.0",
+    "karma-jasmine": "^2.0.1"
+  },
+  "scripts": {
+    "test": "concurrently -k 'node index.js' './node_modules/karma/bin/karma start'"
+  },
+  "author": "",
+  "license": "ISC"
+}
