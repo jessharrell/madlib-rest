@@ -1,19 +1,14 @@
-const https = require('https');
+const axios = require("axios");
 
 describe("get - /puzzle", function () {
     it("request returns puzzle when puzzle is known", function(done) {
-        https.get("https://localhost:3000" + "/puzzle" + "/default", function (response) {
-            var puzzle = "";
-            response.on("data", function (chunk) {
-                puzzle += chunk;
-            });
-
-            response.on("end", function () {
-                expect(puzzle).not.toEqual("");
+        axios.get("http://localhost:3000" + "/puzzles" + "/default")
+            .then(function(response) {
+                expect(response.data).not.toEqual("");
                 done();
+            })
+            .catch(function(error) {
+                done.fail(error);
             });
-        }).on('error', function() {
-            done.fail("Endpoint not found")
-        });
     });
 });

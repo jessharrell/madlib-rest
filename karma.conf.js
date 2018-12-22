@@ -1,22 +1,18 @@
 module.exports = function(config) {
     config.set({
         basePath: '',
-        browsers: ['PhantomJS'],
+        browsers: ['ChromeHeadless'],
         singleRun: true,
-        files: ['**/*.spec.js'],
+        files: ['specs/**/*.spec.js'],
         port: 9875,
-        frameworks: ['browserify', 'jasmine'],
+        frameworks: ['jasmine'],
         preprocessors: {
-            'specs/**/*.spec.js': [ 'browserify' ]
-        },
-        browserify: {
-            debug: true,
-            transform: [ 'brfs' ]
+            'specs/**/*.spec.js': ['webpack']
         },
         plugins: [
             require('karma-jasmine'),
-            require('karma-phantomjs-launcher'),
-            require('karma-browserify')
+            require('karma-chrome-launcher'),
+            require('karma-webpack')
         ],
     });
 };
