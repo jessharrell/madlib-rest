@@ -8,7 +8,7 @@ app.use(function(req, res, next) {
 });
 
 app.get('/puzzles/:puzzle_id', function(req, res){
-    res.send("Some default puzzle");
+    res.send("Puzzle Content");
 });
 
 app.get('/', function (req, res) {
