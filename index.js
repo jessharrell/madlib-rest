@@ -1,3 +1,4 @@
+var fs = require('fs-extra');
 var express = require('express');
 var app = express();
 
@@ -8,7 +9,8 @@ app.use(function(req, res, next) {
 });
 
 app.get('/puzzles/:puzzle_id', function(req, res){
-    res.send("Puzzle Content");
+    var puzzleContent = fs.readFileSync("puzzle-library/" + req.params.puzzle_id)
+    res.send(puzzleContent);
 });
 
 app.get('/', function (req, res) {
