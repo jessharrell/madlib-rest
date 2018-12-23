@@ -1,9 +1,10 @@
 var fs = require('fs-extra');
+var parse = require('./services/parse');
 var express = require('express');
+
+
 var app = express();
-
 var config = JSON.parse(fs.readFileSync(process.argv[2]));
-
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -13,7 +14,8 @@ app.use(function(req, res, next) {
 
 app.get('/puzzles/:puzzle_id', function(req, res){
     if(fs.existsSync(config.PuzzleLocation + "/" + req.params.puzzle_id)) {
-        var puzzleContent = fs.readFileSync(config.PuzzleLocation + "/" + req.params.puzzle_id)
+        var rawPuzzleContent = fs.readFileSync(config.PuzzleLocation + "/" + req.params.puzzle_id)
+        var puzzleContent = parse(rawPuzzleContent.toString());
         res.send(puzzleContent);
     } else {
         res.status(404).send();

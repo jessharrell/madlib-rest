@@ -21,7 +21,7 @@ describe("get - /puzzle", function () {
 
             axios.get("http://localhost:3000/" + "puzzles/" + testID)
                 .then(function (response) {
-                    expect(response.data).toEqual("Puzzle Content");
+                    expect(response.data).toEqual([{type:"static", text:"Puzzle Content"}]);
                     done();
                 })
                 .catch(function (error) {
@@ -36,7 +36,7 @@ describe("get - /puzzle", function () {
 
             axios.get("http://localhost:3000/" + "puzzles/" + testID)
                 .then(function (response) {
-                    expect(response.data).toEqual("Different Puzzle Content");
+                    expect(response.data).toEqual([{type:"static", text:"Different Puzzle Content"}]);
                     done();
                 })
                 .catch(function (error) {
