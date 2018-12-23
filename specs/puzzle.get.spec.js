@@ -15,7 +15,7 @@ describe("get - /puzzle", function () {
             fs.removeSync(serverConfig.PuzzleLocation);
         });
 
-        it("returns puzzle when puzzle is known", function async(done) {
+        it("returns puzzle when puzzle is known", function (done) {
             var testID = uuid4();
             fs.writeFileSync(serverConfig.PuzzleLocation + "/" + testID, "Puzzle Content")
 
@@ -25,11 +25,12 @@ describe("get - /puzzle", function () {
                     done();
                 })
                 .catch(function (error) {
-                    done.fail(error);
+                    expect(error).toBeNull("received error - " + error);
+                    done();
                 });
         });
 
-        it("returns different puzzle when puzzle is known", function async(done) {
+        it("returns different puzzle when puzzle is known", function (done) {
             var testID = uuid4();
             fs.writeFileSync(serverConfig.PuzzleLocation + "/" + testID, "Different Puzzle Content")
 
@@ -39,7 +40,21 @@ describe("get - /puzzle", function () {
                     done();
                 })
                 .catch(function (error) {
-                    done.fail(error);
+                    expect(error).toBeNull("received error - " + error);
+                    done();
+                });
+        });
+
+        it("returns a 404 when puzzle is not known", function (done) {
+            var testID = uuid4();
+
+            axios.get("http://localhost:3000/" + "puzzles/" + testID)
+                .then(function (response) {
+                    expect(response).toBeNull("Received response for unknown puzzle")
+                })
+                .catch(function (error) {
+                    expect(error.response.status).toEqual(404);
+                    done();
                 });
         });
     });

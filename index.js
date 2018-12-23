@@ -9,8 +9,12 @@ app.use(function(req, res, next) {
 });
 
 app.get('/puzzles/:puzzle_id', function(req, res){
-    var puzzleContent = fs.readFileSync("puzzle-library/" + req.params.puzzle_id)
-    res.send(puzzleContent);
+    if(fs.existsSync("puzzle-library/" + req.params.puzzle_id)) {
+        var puzzleContent = fs.readFileSync("puzzle-library/" + req.params.puzzle_id)
+        res.send(puzzleContent);
+    } else {
+        res.status(404).send();
+    }
 });
 
 app.get('/', function (req, res) {
