@@ -24,4 +24,13 @@ describe("parse", function () {
             {type:"static", text: staticText}
         ]);
     });
+
+    it("given a noun at the end of the static text, returns static obj then noun obj", function () {
+        var staticText = "some static text";
+        var actual = parse(staticText + " _noun");
+        expect(actual).toEqual([
+            {type:"static", text: staticText},
+            {type:"noun", text: ""}
+        ]);
+    });
 });
