@@ -33,4 +33,13 @@ describe("parse", function () {
             {type:"noun", text: ""}
         ]);
     });
+
+    it("given verb at end of static text, returns static obj then verb obj", function () {
+        var staticText = "some static text";
+        var actual = parse(staticText + " _verb");
+        expect(actual).toEqual([
+            {type:"static", text: staticText},
+            {type:"verb", text: ""}
+        ]);
+    });
 });

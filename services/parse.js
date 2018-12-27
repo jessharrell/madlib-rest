@@ -4,7 +4,7 @@ module.exports = function(text) {
         var indexOfDynamic = text.indexOf("_")
         if (indexOfDynamic > 0) {
             return [{ type : 'static', text : text.substr(0 , indexOfDynamic - 1)},
-                    { type : 'noun', text : '' }]
+                    { type : text.substr(indexOfDynamic+1), text : '' }]
         }
 
         return [{type: "static", text: text}];
