@@ -13,6 +13,15 @@ describe("parse", function () {
         expect(actual).toEqual([
             {type:"noun", text: ""},
             {type:"static", text: staticText}
-        ])
-    })
+        ]);
+    });
+
+    it("given verb at beginning and static text, returns verb obj then static obj", function () {
+        var staticText = "some static text";
+        var actual = parse("_verb " + staticText);
+        expect(actual).toEqual([
+            {type:"verb", text: ""},
+            {type:"static", text: staticText}
+        ]);
+    });
 });
