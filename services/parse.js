@@ -17,8 +17,8 @@ module.exports = function(text) {
 
         }
 
-        var firstSpace = text.indexOf(" ");
-        return [ { type : text.substr(indexOfDynamic, firstSpace).substr(1), text : '' },
-                 { type : 'static', text : text.substr(firstSpace + 1)} ];
+        var firstSpace = text.substr(indexOfDynamic +1).indexOf(" ");
+        return [ { type : text.substr(indexOfDynamic+1, firstSpace), text : '' },
+                 { type : 'static', text : text.substr(indexOfDynamic +1 + firstSpace + 1)} ];
     }
 };
