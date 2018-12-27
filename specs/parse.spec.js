@@ -40,4 +40,13 @@ describe("parse", function () {
             {type:"verb", text: ""}
         ]);
     });
+
+    it("given noun in middle of static text, return static, noun, static", function () {
+        var actual = parse(staticText + " _noun " + staticText);
+        expect(actual).toEqual([
+            {type:"static", text: staticText},
+            {type:"noun", text: ""},
+            {type:"static", text: staticText}
+        ]);
+    })
 });
