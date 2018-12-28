@@ -4,6 +4,10 @@ This is simple express server used to serve a rest api for madlibs.
 As this is node please start by running `yarn install`. 
 After which `yarn serve server.config.json` may be used to start 
 the server.
+
+### End Points
+`/puzzles/<puzzle_id>`
+* returns puzzles as list of pieces. Each piece containing a type and text.
     
 ### Functionality Details
    
