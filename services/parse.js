@@ -1,24 +1,20 @@
 module.exports = function(text) {
-    var indexOfDynamic = text.indexOf("_")
+    var indexOfDynamic = text.indexOf('_')
     if (indexOfDynamic < 0){
-        return [{type: "static", text: text}];
+        return [{type: 'static', text: text}];
     } else {
-        if (indexOfDynamic !== 0) {
+        var indexOfNextSpace = text.substr(indexOfDynamic + 1).indexOf(" ");
+        if(indexOfNextSpace > 0){
+            var list = [{type: 'static', text: text.substr(0, indexOfDynamic - 1)},
+                {type: text.substr(indexOfDynamic + 1, indexOfNextSpace), text: ''},
+                {type: 'static', text: text.substr(indexOfDynamic + 1 + indexOfNextSpace + 1)}]
 
-            var indexOfNextSpace = text.substr(indexOfDynamic+1).indexOf(" ");
-            if( indexOfNextSpace < 0 ) {
-                return [{ type : 'static', text : text.substr(0 , indexOfDynamic - 1)},
-                    { type : text.substr(indexOfDynamic+1), text : '' }];
-            }
-
+            return list.filter(function (element) {
+                return element.type !== 'static' || element.text !== ''
+            })
+        } else {
             return [{ type : 'static', text : text.substr(0 , indexOfDynamic - 1)},
-                { type : text.substr(indexOfDynamic+1, indexOfNextSpace), text : '' },
-                { type : 'static', text : text.substr( indexOfDynamic +1 + indexOfNextSpace + 1)}];
-
+                { type : text.substr(indexOfDynamic+1), text : '' }];
         }
-
-        var firstSpace = text.substr(indexOfDynamic +1).indexOf(" ");
-        return [ { type : text.substr(indexOfDynamic+1, firstSpace), text : '' },
-                 { type : 'static', text : text.substr(indexOfDynamic +1 + firstSpace + 1)} ];
     }
 };
