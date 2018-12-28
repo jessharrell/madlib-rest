@@ -48,5 +48,15 @@ describe("parse", function () {
             {type:"noun", text: ""},
             {type:"static", text: staticText}
         ]);
-    })
+    });
+
+    it("given two nouns in middle of static text, return static, noun. noun, static", function () {
+        var actual = parse(staticText + " _noun " + " _noun " + staticText);
+        expect(actual).toEqual([
+            {type:"static", text: staticText},
+            {type:"noun", text: ""},
+            {type:"noun", text: ""},
+            {type:"static", text: staticText}
+        ]);
+    });
 });
