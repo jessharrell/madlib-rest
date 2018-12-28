@@ -26,15 +26,16 @@ var space = 1;
 var underscore = 1;
 
 function parseStringWithDynamics(text) {
-    var indexOfDynamic = text.indexOf('_')
-    var list = [];
+    var listOfPieces = [];
     var restOfString = text;
     var currentIndex = 0;
+    var indexOfDynamic = text.indexOf('_');
+
     while (indexOfDynamic >= 0) {
         var lengthOfDynamic = findLengthOfDynamic(restOfString, indexOfDynamic);
 
-        list.push({type: 'static', text: restOfString.substr(0, indexOfDynamic - space)});
-        list.push({type: restOfString.substr(indexOfDynamic + underscore, lengthOfDynamic), text: ''});
+        listOfPieces.push({type: 'static', text: restOfString.substr(0, indexOfDynamic - space)});
+        listOfPieces.push({type: restOfString.substr(indexOfDynamic + underscore, lengthOfDynamic), text: ''});
 
         currentIndex =  indexOfDynamic + underscore + lengthOfDynamic + space;
         restOfString = restOfString.substr(currentIndex);
@@ -42,7 +43,8 @@ function parseStringWithDynamics(text) {
     }
 
     if(currentIndex < text.length) {
-        list.push({type: 'static', text: restOfString});
+        listOfPieces.push({type: 'static', text: restOfString});
     }
-    return list
+
+    return listOfPieces
 }
