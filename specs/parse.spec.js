@@ -65,4 +65,9 @@ describe("parse", function () {
             {type:"static", text: staticText}
         ]);
     });
+
+    it("throws error when puzzle has no title", function () {
+        var puzzleWithoutTitle = "Broken Puzzle";
+        expect(function () {parse(puzzleWithoutTitle)}).toThrow("Missing Title");
+    });
 });

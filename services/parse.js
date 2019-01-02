@@ -1,4 +1,8 @@
 module.exports = function(rawPuzzleFileText) {
+    if( rawPuzzleFileText.indexOf("/") < 0) {
+        throw new Error("Missing Title");
+    }
+
     var titleAndRawContent = rawPuzzleFileText.split("/", 2);
     var title = titleAndRawContent[0];
     var rawContent = titleAndRawContent[1];

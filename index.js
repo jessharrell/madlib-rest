@@ -15,8 +15,12 @@ app.use(function(req, res, next) {
 app.get('/puzzles/:puzzle_id', function(req, res){
     if(fs.existsSync(config.PuzzleLocation + "/" + req.params.puzzle_id)) {
         var rawPuzzleContent = fs.readFileSync(config.PuzzleLocation + "/" + req.params.puzzle_id)
-        var puzzle = parse(rawPuzzleContent.toString());
-        res.send({name: puzzle[0], puzzle: puzzle[1]});
+        try {
+            var puzzle = parse(rawPuzzleContent.toString());
+            res.send({name: puzzle[0], puzzle: puzzle[1]});
+        } catch (e) {
+            res.status(410).send(e);
+        }
     } else {
         res.status(404).send();
     }

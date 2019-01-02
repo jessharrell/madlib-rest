@@ -57,5 +57,19 @@ describe("get - /puzzle", function () {
                     done();
                 });
         });
+
+        it("returns a 410 when requested puzzle is invalid", function (done) {
+            var testID = uuid4();
+            fs.writeFileSync(serverConfig.PuzzleLocation + "/" + testID, "Puzzle missing title and therefore invalid")
+
+            axios.get("http://localhost:3000/" + "puzzles/" + testID)
+                .then(function (response) {
+                    expect(response).toBeNull("Received response for invalid puzzle")
+                })
+                .catch(function (error) {
+                    expect(error.response.status).toEqual(410);
+                    done();
+                });
+        });
     });
 });
