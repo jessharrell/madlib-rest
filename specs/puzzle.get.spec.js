@@ -17,11 +17,11 @@ describe("get - /puzzle", function () {
 
         it("returns puzzle when puzzle is known", function (done) {
             var testID = uuid4();
-            fs.writeFileSync(serverConfig.PuzzleLocation + "/" + testID, "Puzzle Content")
+            fs.writeFileSync(serverConfig.PuzzleLocation + "/" + testID, "custom_name/Puzzle Content")
 
             axios.get("http://localhost:3000/" + "puzzles/" + testID)
                 .then(function (response) {
-                    expect(response.data).toEqual([{type:"static", text:"Puzzle Content"}]);
+                    expect(response.data).toEqual({name: "custom_name", puzzle: [{type:"static", text:"Puzzle Content"}]});
                     done();
                 })
                 .catch(function (error) {
@@ -32,11 +32,11 @@ describe("get - /puzzle", function () {
 
         it("returns different puzzle when puzzle is known", function (done) {
             var testID = uuid4();
-            fs.writeFileSync(serverConfig.PuzzleLocation + "/" + testID, "Different Puzzle Content")
+            fs.writeFileSync(serverConfig.PuzzleLocation + "/" + testID, "/Different Puzzle Content")
 
             axios.get("http://localhost:3000/" + "puzzles/" + testID)
                 .then(function (response) {
-                    expect(response.data).toEqual([{type:"static", text:"Different Puzzle Content"}]);
+                    expect(response.data).toEqual({name: "", puzzle: [{type:"static", text:"Different Puzzle Content"}]});
                     done();
                 })
                 .catch(function (error) {

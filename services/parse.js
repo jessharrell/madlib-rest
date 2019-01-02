@@ -1,13 +1,20 @@
-module.exports = function(text) {
-    var indexOfDynamic = text.indexOf('_')
-    if (indexOfDynamic < 0){
-        return [{type: 'static', text: text}];
-    } else {
-        var list = parseStringWithDynamics(text)
-        return removeBlankStaticTexts(list)
-    }
+module.exports = function(rawPuzzleFileText) {
+    var titleAndRawContent = rawPuzzleFileText.split("/", 2);
+    var title = titleAndRawContent[0];
+    var rawContent = titleAndRawContent[1];
+
+    return [title, parsePuzzleContent(rawContent)]
 };
 
+function parsePuzzleContent(puzzleContent) {
+    var indexOfDynamic = puzzleContent.indexOf('_');
+    if (indexOfDynamic < 0){
+        return [{type: 'static', text: puzzleContent}];
+    } else {
+        var list = parseStringWithDynamics(puzzleContent);
+        return removeBlankStaticTexts(list);
+    }
+}
 
 function removeBlankStaticTexts(listOfPuzzlePieces) {
     return listOfPuzzlePieces.filter(function (piece) { return piece.type !== 'static' || piece.text.trim() !== ''});
