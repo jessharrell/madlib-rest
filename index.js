@@ -13,6 +13,10 @@ app.use(function(req, res, next) {
     next();
 });
 
+app.get('/puzzles/', function(req, res){
+    res.send(fs.readdirSync(config.PuzzleLocation));
+});
+
 app.get('/puzzles/:puzzle_id', function(req, res){
     if(fs.existsSync(config.PuzzleLocation + "/" + req.params.puzzle_id)) {
         var rawPuzzleContent = fs.readFileSync(config.PuzzleLocation + "/" + req.params.puzzle_id)
