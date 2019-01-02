@@ -7,7 +7,8 @@ the server.
 
 ### End Points
 `/puzzles/<puzzle_id>`
-* returns name of puzzle and puzzle as list of pieces. Each piece containing a type and text.
+* returns name of puzzle and puzzle as list of pieces.
+  Each piece containing a type and text.
     
 ### Functionality Details
    

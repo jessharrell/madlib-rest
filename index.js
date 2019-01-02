@@ -4,6 +4,7 @@ var express = require('express');
 
 
 var app = express();
+console.log("config file: " + process.argv[2]);
 var config = JSON.parse(fs.readFileSync(process.argv[2]));
 
 app.use(function(req, res, next) {
