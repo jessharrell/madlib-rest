@@ -37,9 +37,12 @@ function removeBlankStaticTexts(listOfPuzzlePieces) {
 
 function findLengthOfDynamic(restOfString, indexOfDynamic) {
     var startOfDynamicType = indexOfDynamic + 1;
-    var length = restOfString.substr(startOfDynamicType).indexOf(" ");
+    var length = restOfString.substr(startOfDynamicType).indexOf('\n');
     if (length < 0) {
-        length = restOfString.length - startOfDynamicType;
+        length = restOfString.substr(startOfDynamicType).indexOf(' ');
+        if (length < 0) {
+            length = restOfString.length - startOfDynamicType;
+        }
     }
     return length;
 }
@@ -58,6 +61,10 @@ function parseStringWithDynamics(text) {
 
         listOfPieces.push({type: 'static', text: restOfString.substr(0, indexOfDynamic - space)});
         listOfPieces.push({type: restOfString.substr(indexOfDynamic + underscore, lengthOfDynamic), text: ''});
+
+        if(restOfString[indexOfDynamic + underscore + lengthOfDynamic] === "\n") {
+            listOfPieces.push({type: 'newline', text:''});
+        }
 
         currentIndex =  indexOfDynamic + underscore + lengthOfDynamic + space;
         restOfString = restOfString.substr(currentIndex);

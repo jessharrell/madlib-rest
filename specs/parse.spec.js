@@ -79,4 +79,14 @@ describe("parse", function () {
             {type:"static", text: staticText}
         ]);
     });
+
+    it("parses newline following a dynamic", function () {
+        var actual = parse("/" + staticText + " _noun" + "\n" + staticText)[1];
+        expect(actual).toEqual([
+            {type:"static", text: staticText},
+            {type:"noun", text: ""},
+            {type:"newline", text: ""},
+            {type:"static", text: staticText}
+        ]);
+    })
 });
