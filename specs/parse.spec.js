@@ -119,4 +119,11 @@ describe("parse", function () {
             {type:"static", text: staticText}
         ]);
     });
+
+    it("does not add newline element for end of file newline", function() {
+        var actual = parse("/" + staticText + "\n")[1];
+        expect(actual).toEqual([
+            {type:"static", text: staticText}
+        ]);
+    });
 });

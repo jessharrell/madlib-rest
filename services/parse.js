@@ -12,16 +12,21 @@ module.exports = function(rawPuzzleFileText) {
 
 function parsePuzzleContent(puzzleContent) {
     var indexOfDynamic = puzzleContent.indexOf('_');
+    var list = [];
     if (indexOfDynamic < 0){
-        return parseStaticTextForPotentialNewLines(puzzleContent);
+        list =  parseStaticTextForPotentialNewLines(puzzleContent);
     } else {
-        var list = parseStringWithDynamics(puzzleContent);
-        return removeBlankStaticTexts(list);
+        list = parseStringWithDynamics(puzzleContent);
     }
+    return removeBlankStaticTextsAndTrailingNewLine(list);
 }
 
-function removeBlankStaticTexts(listOfPuzzlePieces) {
-    return listOfPuzzlePieces.filter(function (piece) { return piece.type !== 'static' || piece.text.trim() !== ''});
+function removeBlankStaticTextsAndTrailingNewLine(listOfPuzzlePieces) {
+    var list = listOfPuzzlePieces.filter(function (piece) { return piece.type !== 'static' || piece.text.trim() !== ''});
+    if(list[list.length -1].type === 'newline') {
+        list = list.slice(0, list.length -1);
+    }
+    return list;
 }
 
 function findLengthOfDynamic(stringContainingDynamic, indexOfDynamic) {
