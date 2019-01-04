@@ -88,5 +88,14 @@ describe("parse", function () {
             {type:"newline", text: ""},
             {type:"static", text: staticText}
         ]);
-    })
+    });
+
+    it("parses newline between static and dynamic", function () {
+        var actual = parse("/" + staticText + "\n" + "_noun")[1];
+        expect(actual).toEqual([
+            {type:"static", text: staticText},
+            {type:"newline", text: ""},
+            {type:"noun", text: ""}
+        ]);
+    });
 });
