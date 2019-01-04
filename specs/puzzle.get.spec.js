@@ -29,9 +29,9 @@ describe("get - /puzzle", function () {
 
         it("returns list all puzzle ids in library", function (done) {
             var testID = uuid4();
-            fs.writeFileSync(serverConfig.PuzzleLocation + "/" + testID + "1", "")
-            fs.writeFileSync(serverConfig.PuzzleLocation + "/" + testID + "2", "")
-            fs.writeFileSync(serverConfig.PuzzleLocation + "/" + testID + "3", "")
+            fs.writeFileSync(serverConfig.PuzzleLocation + "/" + testID + "1", "");
+            fs.writeFileSync(serverConfig.PuzzleLocation + "/" + testID + "2", "");
+            fs.writeFileSync(serverConfig.PuzzleLocation + "/" + testID + "3", "");
 
             axios.get("http://localhost:3000/" + "puzzles/")
                 .then(function (response) {
@@ -48,7 +48,7 @@ describe("get - /puzzle", function () {
     describe("requesting specific puzzle", function() {
         it("returns puzzle when puzzle is known", function (done) {
             var testID = uuid4();
-            fs.writeFileSync(serverConfig.PuzzleLocation + "/" + testID, "custom_name/Puzzle Content")
+            fs.writeFileSync(serverConfig.PuzzleLocation + "/" + testID, "custom_name/Puzzle Content");
 
             axios.get("http://localhost:3000/" + "puzzles/" + testID)
                 .then(function (response) {
@@ -63,7 +63,7 @@ describe("get - /puzzle", function () {
 
         it("returns different puzzle when puzzle is known", function (done) {
             var testID = uuid4();
-            fs.writeFileSync(serverConfig.PuzzleLocation + "/" + testID, "/Different Puzzle Content")
+            fs.writeFileSync(serverConfig.PuzzleLocation + "/" + testID, "/Different Puzzle Content");
 
             axios.get("http://localhost:3000/" + "puzzles/" + testID)
                 .then(function (response) {
@@ -81,7 +81,7 @@ describe("get - /puzzle", function () {
 
             axios.get("http://localhost:3000/" + "puzzles/" + testID)
                 .then(function (response) {
-                    expect(response).toBeNull("Received response for unknown puzzle")
+                    expect(response).toBeNull("Received response for unknown puzzle");
                 })
                 .catch(function (error) {
                     expect(error.response.status).toEqual(404);
