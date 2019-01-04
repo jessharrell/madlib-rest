@@ -13,18 +13,7 @@ module.exports = function(rawPuzzleFileText) {
 function parsePuzzleContent(puzzleContent) {
     var indexOfDynamic = puzzleContent.indexOf('_');
     if (indexOfDynamic < 0){
-        if(puzzleContent.indexOf('\n') < 0) {
-            return [{type: 'static', text: puzzleContent}];
-        }
-
-        var statics = puzzleContent.split('\n');
-        var output = [];
-        for(var i = 0; i < statics.length -1; i++) {
-            output.push({type: 'static', text: statics[i]});
-            output.push({type: 'newline', text: ''});
-        }
-        output.push({type: 'static', text: statics[statics.length-1]});
-        return output;
+        return parseStaticTextForPotentialnewLines(puzzleContent);
     } else {
         var list = parseStringWithDynamics(puzzleContent);
         return removeBlankStaticTexts(list);
@@ -59,17 +48,7 @@ function parseStringWithDynamics(text) {
     while (indexOfDynamic >= 0) {
         var lengthOfDynamic = findLengthOfDynamic(restOfString, indexOfDynamic);
 
-        // listOfPieces.push({type: 'static', text: restOfString.substr(0, indexOfDynamic - space)});
-
-        var statics = restOfString.substr(0, indexOfDynamic - space).split('\n');
-        var output = [];
-        for(var i = 0; i < statics.length -1; i++) {
-            output.push({type: 'static', text: statics[i]});
-            output.push({type: 'newline', text: ''});
-        }
-        output.push({type: 'static', text: statics[statics.length-1]});
-
-        listOfPieces = listOfPieces.concat(output);
+        listOfPieces = listOfPieces.concat(parseStaticTextForPotentialnewLines(restOfString.substr(0, indexOfDynamic - space)));
 
         if(restOfString[indexOfDynamic - space] === "\n") {
             listOfPieces.push({type: 'newline', text:''});
@@ -91,4 +70,15 @@ function parseStringWithDynamics(text) {
     }
 
     return listOfPieces
+}
+
+function parseStaticTextForPotentialnewLines(staticText) {
+    var statics = staticText.split('\n');
+    var output = [];
+    for(var i = 0; i < statics.length -1; i++) {
+        output.push({type: 'static', text: statics[i]});
+        output.push({type: 'newline', text: ''});
+    }
+    output.push({type: 'static', text: statics[statics.length-1]});
+    return output;
 }
