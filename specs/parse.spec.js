@@ -71,7 +71,7 @@ describe("parse", function () {
         expect(function () {parse(puzzleWithoutTitle)}).toThrow("Missing Title");
     });
 
-    it("parses newlines into newline element", function() {
+    it("parses newlines into newline element when between statics", function() {
         var actual = parse("/" + staticText + "\n" + staticText)[1];
         expect(actual).toEqual([
             {type:"static", text: staticText},
@@ -95,6 +95,17 @@ describe("parse", function () {
         expect(actual).toEqual([
             {type:"static", text: staticText},
             {type:"newline", text: ""},
+            {type:"noun", text: ""}
+        ]);
+    });
+
+
+    it("parses newlines into newline element when between statics with dynamic", function() {
+        var actual = parse("/" + staticText + "\n" + staticText + " _noun" )[1];
+        expect(actual).toEqual([
+            {type:"static", text: staticText},
+            {type:"newline", text: ""},
+            {type:"static", text: staticText},
             {type:"noun", text: ""}
         ]);
     });

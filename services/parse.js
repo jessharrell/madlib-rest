@@ -59,12 +59,24 @@ function parseStringWithDynamics(text) {
     while (indexOfDynamic >= 0) {
         var lengthOfDynamic = findLengthOfDynamic(restOfString, indexOfDynamic);
 
-        listOfPieces.push({type: 'static', text: restOfString.substr(0, indexOfDynamic - space)});
+        // listOfPieces.push({type: 'static', text: restOfString.substr(0, indexOfDynamic - space)});
+
+        var statics = restOfString.substr(0, indexOfDynamic - space).split('\n');
+        var output = [];
+        for(var i = 0; i < statics.length -1; i++) {
+            output.push({type: 'static', text: statics[i]});
+            output.push({type: 'newline', text: ''});
+        }
+        output.push({type: 'static', text: statics[statics.length-1]});
+
+        listOfPieces = listOfPieces.concat(output);
+
         if(restOfString[indexOfDynamic - space] === "\n") {
             listOfPieces.push({type: 'newline', text:''});
         }
 
         listOfPieces.push({type: restOfString.substr(indexOfDynamic + underscore, lengthOfDynamic), text: ''});
+
         if(restOfString[indexOfDynamic + underscore + lengthOfDynamic] === "\n") {
             listOfPieces.push({type: 'newline', text:''});
         }
