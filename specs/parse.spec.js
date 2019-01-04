@@ -100,13 +100,23 @@ describe("parse", function () {
     });
 
 
-    it("parses newlines into newline element when between statics with dynamic", function() {
+    it("parses newlines into newline element when between statics with dynamic at end", function() {
         var actual = parse("/" + staticText + "\n" + staticText + " _noun" )[1];
         expect(actual).toEqual([
             {type:"static", text: staticText},
             {type:"newline", text: ""},
             {type:"static", text: staticText},
             {type:"noun", text: ""}
+        ]);
+    });
+
+    it("parses newlines into newline element when between statics with dynamic at beginning", function() {
+        var actual = parse("/" + " _noun " + staticText + "\n" + staticText)[1];
+        expect(actual).toEqual([
+            {type:"noun", text: ""},
+            {type:"static", text: staticText},
+            {type:"newline", text: ""},
+            {type:"static", text: staticText}
         ]);
     });
 });

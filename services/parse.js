@@ -13,7 +13,7 @@ module.exports = function(rawPuzzleFileText) {
 function parsePuzzleContent(puzzleContent) {
     var indexOfDynamic = puzzleContent.indexOf('_');
     if (indexOfDynamic < 0){
-        return parseStaticTextForPotentialnewLines(puzzleContent);
+        return parseStaticTextForPotentialNewLines(puzzleContent);
     } else {
         var list = parseStringWithDynamics(puzzleContent);
         return removeBlankStaticTexts(list);
@@ -24,14 +24,12 @@ function removeBlankStaticTexts(listOfPuzzlePieces) {
     return listOfPuzzlePieces.filter(function (piece) { return piece.type !== 'static' || piece.text.trim() !== ''});
 }
 
-function findLengthOfDynamic(restOfString, indexOfDynamic) {
+function findLengthOfDynamic(stringContainingDynamic, indexOfDynamic) {
     var startOfDynamicType = indexOfDynamic + 1;
-    var length = restOfString.substr(startOfDynamicType).indexOf('\n');
+    var sanitizedString = stringContainingDynamic.replace(/\n/g, " ");
+    var length = sanitizedString.substr(startOfDynamicType).indexOf(' ');
     if (length < 0) {
-        length = restOfString.substr(startOfDynamicType).indexOf(' ');
-        if (length < 0) {
-            length = restOfString.length - startOfDynamicType;
-        }
+        length = sanitizedString.length - startOfDynamicType;
     }
     return length;
 }
@@ -48,7 +46,7 @@ function parseStringWithDynamics(text) {
     while (indexOfDynamic >= 0) {
         var lengthOfDynamic = findLengthOfDynamic(restOfString, indexOfDynamic);
 
-        listOfPieces = listOfPieces.concat(parseStaticTextForPotentialnewLines(restOfString.substr(0, indexOfDynamic - space)));
+        listOfPieces = listOfPieces.concat(parseStaticTextForPotentialNewLines(restOfString.substr(0, indexOfDynamic - space)));
 
         if(restOfString[indexOfDynamic - space] === "\n") {
             listOfPieces.push({type: 'newline', text:''});
@@ -66,13 +64,13 @@ function parseStringWithDynamics(text) {
     }
 
     if(currentIndex < text.length) {
-        listOfPieces.push({type: 'static', text: restOfString});
+        listOfPieces = listOfPieces.concat(parseStaticTextForPotentialNewLines(restOfString));
     }
 
     return listOfPieces
 }
 
-function parseStaticTextForPotentialnewLines(staticText) {
+function parseStaticTextForPotentialNewLines(staticText) {
     var statics = staticText.split('\n');
     var output = [];
     for(var i = 0; i < statics.length -1; i++) {
