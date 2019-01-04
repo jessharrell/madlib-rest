@@ -13,7 +13,18 @@ module.exports = function(rawPuzzleFileText) {
 function parsePuzzleContent(puzzleContent) {
     var indexOfDynamic = puzzleContent.indexOf('_');
     if (indexOfDynamic < 0){
-        return [{type: 'static', text: puzzleContent}];
+        if(puzzleContent.indexOf('\n') < 0) {
+            return [{type: 'static', text: puzzleContent}];
+        }
+
+        var statics = puzzleContent.split('\n');
+        var output = [];
+        for(var i = 0; i < statics.length -1; i++) {
+            output.push({type: 'static', text: statics[i]});
+            output.push({type: 'newline', text: ''});
+        }
+        output.push({type: 'static', text: statics[statics.length-1]});
+        return output;
     } else {
         var list = parseStringWithDynamics(puzzleContent);
         return removeBlankStaticTexts(list);

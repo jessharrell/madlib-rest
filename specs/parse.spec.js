@@ -70,4 +70,13 @@ describe("parse", function () {
         var puzzleWithoutTitle = "Broken Puzzle";
         expect(function () {parse(puzzleWithoutTitle)}).toThrow("Missing Title");
     });
+
+    it("parses newlines into newline element", function() {
+        var actual = parse("/" + staticText + "\n" + staticText)[1];
+        expect(actual).toEqual([
+            {type:"static", text: staticText},
+            {type:"newline", text: ""},
+            {type:"static", text: staticText}
+        ]);
+    });
 });
