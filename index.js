@@ -45,7 +45,13 @@ app.post('/puzzles/:puzzle_id', function (req, res) {
     else if(fs.existsSync(config.PuzzleLocation + "/" + req.params.puzzle_id)) {
         res.status(409).send();
     } else {
-        fs.writeFileSync(config.PuzzleLocation + "/" + req.params.puzzle_id, serialize(req.body.puzzle));
+        try{
+            var puzzleText = serialize(req.body.puzzle)
+        } catch (e) {
+            res.status(406).send(e);
+        }
+
+        fs.writeFileSync(config.PuzzleLocation + "/" + req.params.puzzle_id, puzzleText);
         res.status(200).send();
     }
 });

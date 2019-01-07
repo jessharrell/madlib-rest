@@ -131,4 +131,17 @@ describe("put - /puzzle", function () {
             });
     });
 
+    it("returns 406 - Not Acceptable when puzzle cannot be serialized", function (done) {
+        var testID = uuid4();
+        var data = {title: "Bad Puzzle", puzzle:[{text:"fooBar"}]};
+        axios.post("http://localhost:3000/" + "puzzles/" + testID, data)
+            .then(function (response) {
+                expect(response).toBeNull("Received response for puzzle with bad piece");
+                done();
+            })
+            .catch(function (error) {
+                expect(error.response.status).toEqual(406);
+                done();
+            });
+    });
 });
