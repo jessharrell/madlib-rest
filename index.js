@@ -1,6 +1,7 @@
 var fs = require('fs-extra');
 var parse = require('./services/parse');
 var express = require('express');
+var bodyParser = require('body-parser')
 
 
 var app = express();
@@ -12,6 +13,8 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+
+app.use(bodyParser.json());
 
 app.get('/puzzles/', function(req, res){
     res.send(fs.readdirSync(config.PuzzleLocation));
@@ -29,6 +32,14 @@ app.get('/puzzles/:puzzle_id', function(req, res){
     } else {
         res.status(404).send();
     }
+});
+
+app.post('/puzzles/:puzzle_id', function (req, res) {
+
+    if(!req.body.title) {
+        res.status(406).send();
+    }
+    res.status(409).send();
 });
 
 app.get('/', function (req, res) {

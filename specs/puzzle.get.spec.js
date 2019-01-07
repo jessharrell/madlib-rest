@@ -1,7 +1,7 @@
 var axios = require("axios");
 var fs = require('fs-extra');
 var uuid4 = require("uuid/v4");
-var serverConfig = require("./test.server.config")
+var serverConfig = require("./test.server.config");
 
 describe("get - /puzzle", function () {
     beforeEach(function() {
