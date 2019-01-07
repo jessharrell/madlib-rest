@@ -37,9 +37,7 @@ app.get('/puzzles/:puzzle_id', function(req, res){
 
 app.post('/puzzles/:puzzle_id', function (req, res) {
 
-    if(!req.body.title) {
-        res.status(406).send();
-    } else if(!req.body.puzzle || !Array.isArray(req.body.puzzle)) {
+    if(!req.body.title || !req.body.puzzle || !Array.isArray(req.body.puzzle)) {
         res.status(406).send();
     }
     else if(fs.existsSync(config.PuzzleLocation + "/" + req.params.puzzle_id)) {
