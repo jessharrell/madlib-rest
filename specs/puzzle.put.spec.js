@@ -64,6 +64,7 @@ describe("put - /puzzle", function () {
         axios.post("http://localhost:3000/" + "puzzles/" + testID, data)
             .then(function (response) {
                 expect(response.status).toEqual(200);
+                expect(fs.existsSync(serverConfig.PuzzleLocation + "/" + testID)).toBeTruthy()
                 done();
             })
             .catch(function (error) {
