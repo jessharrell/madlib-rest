@@ -109,18 +109,22 @@ describe("put - /puzzle", function () {
                 {
                     "type": "static",
                     "text": "Puppies are"
+                },
+                {
+                    "type": "noun",
+                    "text": ""
                 }]
         };
         axios.post("http://localhost:3000/" + "puzzles/" + testID, data)
             .then(function (response) {
                 expect(response.status).toEqual(200);
-                expect(fs.readFileSync(serverConfig.PuzzleLocation + "/" + testID).toString()).toEqual("Puppies are");
+                expect(fs.readFileSync(serverConfig.PuzzleLocation + "/" + testID).toString()).toEqual("Puppies are _noun ");
                 done();
             })
             .catch(function (error) {
                 expect(error).toBeNull();
                 done();
             });
-    })
+    });
 
 });
