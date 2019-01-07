@@ -43,4 +43,18 @@ describe("put - /puzzle", function () {
                 done();
             });
     });
+
+    it("returns 406 - Not Acceptable when given a puzzle with an empty title", function (done) {
+        var testID = uuid4();
+        var data = {title: ""};
+        axios.post("http://localhost:3000/" + "puzzles/" + testID, data)
+            .then(function (response) {
+                expect(response).toBeNull("Received response for conflicting puzzle");
+                done();
+            })
+            .catch(function (error) {
+                expect(error.response.status).toEqual(406);
+                done();
+            });
+    });
 });
