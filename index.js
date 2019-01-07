@@ -1,7 +1,8 @@
 var fs = require('fs-extra');
-var parse = require('./services/parse');
 var express = require('express');
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+var parse = require('./services/parse');
+var serialize = require('./services/serialize');
 
 
 var app = express();
@@ -22,7 +23,7 @@ app.get('/puzzles/', function(req, res){
 
 app.get('/puzzles/:puzzle_id', function(req, res){
     if(fs.existsSync(config.PuzzleLocation + "/" + req.params.puzzle_id)) {
-        var rawPuzzleContent = fs.readFileSync(config.PuzzleLocation + "/" + req.params.puzzle_id)
+        var rawPuzzleContent = fs.readFileSync(config.PuzzleLocation + "/" + req.params.puzzle_id);
         try {
             var puzzle = parse(rawPuzzleContent.toString());
             res.send({name: puzzle[0], puzzle: puzzle[1]});
@@ -38,10 +39,13 @@ app.post('/puzzles/:puzzle_id', function (req, res) {
 
     if(!req.body.title) {
         res.status(406).send();
-    } else if(fs.existsSync(config.PuzzleLocation + "/" + req.params.puzzle_id)) {
+    } else if(!req.body.puzzle || !Array.isArray(req.body.puzzle)) {
+        res.status(406).send();
+    }
+    else if(fs.existsSync(config.PuzzleLocation + "/" + req.params.puzzle_id)) {
         res.status(409).send();
     } else {
-        fs.writeFileSync(config.PuzzleLocation + "/" + req.params.puzzle_id, "");
+        fs.writeFileSync(config.PuzzleLocation + "/" + req.params.puzzle_id, serialize(req.body.puzzle));
         res.status(200).send();
     }
 });
