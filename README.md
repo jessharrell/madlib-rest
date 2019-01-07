@@ -6,6 +6,9 @@ After which `yarn serve server.config.json` may be used to start
 the server.
 
 ### End Points
+`/puzzles`
+* returns list of known puzzle ids
+
 `/puzzles/<puzzle_id>`
 * returns name of puzzle and puzzle as list of pieces.
   Each piece containing a type and text.
