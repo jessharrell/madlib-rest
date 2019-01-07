@@ -113,12 +113,16 @@ describe("put - /puzzle", function () {
                 {
                     "type": "noun",
                     "text": ""
+                },
+                {
+                    "type": "newline",
+                    "text": ""
                 }]
         };
         axios.post("http://localhost:3000/" + "puzzles/" + testID, data)
             .then(function (response) {
                 expect(response.status).toEqual(200);
-                expect(fs.readFileSync(serverConfig.PuzzleLocation + "/" + testID).toString()).toEqual("Puppies are _noun");
+                expect(fs.readFileSync(serverConfig.PuzzleLocation + "/" + testID).toString()).toEqual("Puppies are _noun\n");
                 done();
             })
             .catch(function (error) {
