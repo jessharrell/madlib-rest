@@ -118,7 +118,7 @@ describe("put - /puzzle", function () {
         axios.post("http://localhost:3000/" + "puzzles/" + testID, data)
             .then(function (response) {
                 expect(response.status).toEqual(200);
-                expect(fs.readFileSync(serverConfig.PuzzleLocation + "/" + testID).toString()).toEqual("Puppies are _noun ");
+                expect(fs.readFileSync(serverConfig.PuzzleLocation + "/" + testID).toString()).toEqual("Puppies are _noun");
                 done();
             })
             .catch(function (error) {
