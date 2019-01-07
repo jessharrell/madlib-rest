@@ -38,8 +38,11 @@ app.post('/puzzles/:puzzle_id', function (req, res) {
 
     if(!req.body.title) {
         res.status(406).send();
+    } else if(fs.existsSync(config.PuzzleLocation + "/" + req.params.puzzle_id)) {
+        res.status(409).send();
+    } else {
+        res.status(200).send();
     }
-    res.status(409).send();
 });
 
 app.get('/', function (req, res) {

@@ -35,7 +35,7 @@ describe("put - /puzzle", function () {
         var data = {};
         axios.post("http://localhost:3000/" + "puzzles/" + testID, data)
             .then(function (response) {
-                expect(response).toBeNull("Received response for conflicting puzzle");
+                expect(response).toBeNull("Received response for no title puzzle");
                 done();
             })
             .catch(function (error) {
@@ -49,7 +49,7 @@ describe("put - /puzzle", function () {
         var data = {title: ""};
         axios.post("http://localhost:3000/" + "puzzles/" + testID, data)
             .then(function (response) {
-                expect(response).toBeNull("Received response for conflicting puzzle");
+                expect(response).toBeNull("Received response for empty title puzzle");
                 done();
             })
             .catch(function (error) {
@@ -57,4 +57,19 @@ describe("put - /puzzle", function () {
                 done();
             });
     });
+
+    it("stores puzzle given unique id and a title", function (done){
+        var testID = uuid4();
+        var data = {title: "My Unique Puzzle"};
+        axios.post("http://localhost:3000/" + "puzzles/" + testID, data)
+            .then(function (response) {
+                expect(response.status).toEqual(200);
+                done();
+            })
+            .catch(function (error) {
+                expect(error).toBeNull();
+                done();
+            });
+    });
+
 });
