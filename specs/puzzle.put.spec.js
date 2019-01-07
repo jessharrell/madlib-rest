@@ -18,7 +18,7 @@ describe("put - /puzzle", function () {
         var testID = uuid4();
         fs.writeFileSync(serverConfig.PuzzleLocation + "/" + testID, "existing puzzle/Puzzle Content");
 
-        var data = {title: "Duplicate", puzzle:[]};
+        var data = {name: "Duplicate", puzzle:[]};
         axios.post("http://localhost:3000/" + "puzzles/" + testID, data)
             .then(function (response) {
                 expect(response).toBeNull("Received response for conflicting puzzle");
@@ -46,7 +46,7 @@ describe("put - /puzzle", function () {
 
     it("returns 406 - Not Acceptable when given a puzzle with an empty title", function (done) {
         var testID = uuid4();
-        var data = {title: ""};
+        var data = {name: ""};
         axios.post("http://localhost:3000/" + "puzzles/" + testID, data)
             .then(function (response) {
                 expect(response).toBeNull("Received response for empty title puzzle");
@@ -60,11 +60,12 @@ describe("put - /puzzle", function () {
 
     it("stores puzzle given unique id, a title, and empty puzzle", function (done){
         var testID = uuid4();
-        var data = {title: "My Unique Puzzle", puzzle:[]};
+        var data = {name: "My Unique Puzzle", puzzle:[]};
         axios.post("http://localhost:3000/" + "puzzles/" + testID, data)
             .then(function (response) {
                 expect(response.status).toEqual(200);
-                expect(fs.existsSync(serverConfig.PuzzleLocation + "/" + testID)).toBeTruthy()
+                expect(fs.existsSync(serverConfig.PuzzleLocation + "/" + testID)).toBeTruthy();
+                expect(fs.readFileSync(serverConfig.PuzzleLocation + "/" + testID).toString()).toEqual("My Unique Puzzle/");
                 done();
             })
             .catch(function (error) {
@@ -75,7 +76,7 @@ describe("put - /puzzle", function () {
 
     it("returns 406 - Not Acceptable when given puzzle with no puzzle", function (done) {
         var testID = uuid4();
-        var data = {title: "Bad Puzzle"};
+        var data = {name: "Bad Puzzle"};
         axios.post("http://localhost:3000/" + "puzzles/" + testID, data)
             .then(function (response) {
                 expect(response).toBeNull("Received response for no puzzle");
@@ -89,7 +90,7 @@ describe("put - /puzzle", function () {
 
     it("returns 406 - Not Acceptable when puzzle is not a list", function (done) {
         var testID = uuid4();
-        var data = {title: "Bad Puzzle", puzzle:234};
+        var data = {name: "Bad Puzzle", puzzle:234};
         axios.post("http://localhost:3000/" + "puzzles/" + testID, data)
             .then(function (response) {
                 expect(response).toBeNull("Received response for puzzle that is not a list");
@@ -104,7 +105,7 @@ describe("put - /puzzle", function () {
     it("stores puzzle in raw format given puzzle pieces", function (done){
         var testID = uuid4();
         var data = {
-            title: "Real Puzzle",
+            name: "Real Puzzle",
             puzzle: [
                 {
                     "type": "static",
@@ -122,7 +123,7 @@ describe("put - /puzzle", function () {
         axios.post("http://localhost:3000/" + "puzzles/" + testID, data)
             .then(function (response) {
                 expect(response.status).toEqual(200);
-                expect(fs.readFileSync(serverConfig.PuzzleLocation + "/" + testID).toString()).toEqual("Puppies are _noun\n");
+                expect(fs.readFileSync(serverConfig.PuzzleLocation + "/" + testID).toString()).toEqual("Real Puzzle/Puppies are _noun\n");
                 done();
             })
             .catch(function (error) {
@@ -133,7 +134,7 @@ describe("put - /puzzle", function () {
 
     it("returns 406 - Not Acceptable when puzzle cannot be serialized", function (done) {
         var testID = uuid4();
-        var data = {title: "Bad Puzzle", puzzle:[{text:"fooBar"}]};
+        var data = {name: "Bad Puzzle", puzzle:[{text:"fooBar"}]};
         axios.post("http://localhost:3000/" + "puzzles/" + testID, data)
             .then(function (response) {
                 expect(response).toBeNull("Received response for puzzle with bad piece");

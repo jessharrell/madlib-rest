@@ -37,7 +37,7 @@ app.get('/puzzles/:puzzle_id', function(req, res){
 
 app.post('/puzzles/:puzzle_id', function (req, res) {
 
-    if(!req.body.title || !req.body.puzzle || !Array.isArray(req.body.puzzle)) {
+    if(!req.body.name || !req.body.puzzle || !Array.isArray(req.body.puzzle)) {
         res.status(406).send();
     }
     else if(fs.existsSync(config.PuzzleLocation + "/" + req.params.puzzle_id)) {
@@ -49,7 +49,7 @@ app.post('/puzzles/:puzzle_id', function (req, res) {
             res.status(406).send(e);
         }
 
-        fs.writeFileSync(config.PuzzleLocation + "/" + req.params.puzzle_id, puzzleText);
+        fs.writeFileSync(config.PuzzleLocation + "/" + req.params.puzzle_id, req.body.name + "/" + puzzleText);
         res.status(200).send();
     }
 });
