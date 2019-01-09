@@ -14,7 +14,12 @@ the server.
   Each piece containing a type and text.
 
 * post - expects body with name and puzzle where puzzle is a list of objects, each obj having a type and a text
-  ie: {name: "Puzzle Title", puzzle: [{type: "static", text: "puzzle content"}, {type: "verb", text: ""}, {type: "newline", text: ""}]}
+  
+  ie: 
+  
+        name: "Puzzle Title", 
+        puzzle: [{type: "static", text: "puzzle content"}, {type: "verb", text: ""}, {type: "newline", text: ""}]
+  
     
 ### Functionality Details
    
